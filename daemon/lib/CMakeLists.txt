@@ -35,7 +35,6 @@ add_library( DobbyDaemonLib
         source/syshooks/BaseHook.cpp
         source/syshooks/GpuMemoryHook.cpp
         source/syshooks/RtSchedulingHook.cpp
-        source/syshooks/LocalTimeHook.cpp
         )
 
 target_include_directories( DobbyDaemonLib

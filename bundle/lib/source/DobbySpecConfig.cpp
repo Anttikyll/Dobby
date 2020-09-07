@@ -642,6 +642,13 @@ bool DobbySpecConfig::parseSpec(ctemplate::TemplateDictionary* dictionary,
     // step 7 - enable syshooks for use whilst RDK plugins are developed
     setSysHooksAndRdkPlugins();
 
+#if RDK_PLATFORM == XI1
+    // Enable localtime rdk plugin by default if on Xi1. The localtime plugin
+    // takes no input params, so we simply enable the rdkPlugin rather than
+    // processing it via a processing function.
+    enableLocaltimePlugin();
+#endif
+
     // step 8 - write dictionary to config file so that libocispec can continue
     // processing the config from here on out
     if (!DobbyTemplate::applyAt(bundleFd, "config.json", mDictionary, false))
@@ -709,6 +716,25 @@ void DobbySpecConfig::enableRdkPlugin(ctemplate::TemplateDictionary*& subDict,
     subDict->SetValue(RDK_PLUGIN_REQUIRED, required ? "true": "false");
 }
 
+// -----------------------------------------------------------------------------
+/**
+ *  @brief Simply enables the localtime rdkPlugin on platforms where it's
+ *  needed.
+ *
+ *  The plugin takes no input parameters, so we don't need to parse input from
+ *  the spec.
+ *
+ *  @return true if correctly processed the value, otherwise false.
+ */
+void DobbySpecConfig::enableLocaltimePlugin()
+{
+    ctemplate::TemplateDictionary *subDict;
+    enableRdkPlugin(subDict, RDK_LOCALTIME_PLUGIN_NAME, false);
+
+    Json::Value rdkPluginData;
+    subDict->SetValue(RDK_PLUGIN_DATA, "");
+    addRdkPlugin(RDK_LOCALTIME_PLUGIN_NAME, false, rdkPluginData);
+}
 
 // -----------------------------------------------------------------------------
 /**
