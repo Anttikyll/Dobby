@@ -1137,6 +1137,8 @@ std::string Netlink::createVeth(const std::string& peerVethName,
         // create the veth pair
         int ret = rtnl_link_veth_add(mSocket, vethName.c_str(),
                                      peerVethName.c_str(), peerPid);
+
+        AI_LOG_ERROR("veth %s | peer %s | pid %d", vethName.c_str(), peerVethName.c_str(), peerPid);
         if (ret == -NLE_EXIST)
         {
             AI_LOG_WARN("'%s' already exists, trying again to get free veth"
