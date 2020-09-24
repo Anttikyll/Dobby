@@ -1134,6 +1134,9 @@ std::string Netlink::createVeth(const std::string& peerVethName,
             break;
         }
 
+        // test if there's a bug with errno checking somewhere in netlink
+        errno = ENODEV;
+
         // create the veth pair
         int ret = rtnl_link_veth_add(mSocket, vethName.c_str(),
                                      peerVethName.c_str(), peerPid);
