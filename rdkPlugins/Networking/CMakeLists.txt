@@ -64,4 +64,4 @@ target_include_directories( ${PROJECT_NAME}
 set_target_properties( ${PROJECT_NAME} PROPERTIES SOVERSION 1 )
 
 # uncomment to use workaround functions for libnl bridge creation
-#target_compile_definitions( ${PROJECT_NAME} PRIVATE ENABLE_LIBNL_BRIDGE_WORKAROUND )
+target_compile_definitions( ${PROJECT_NAME} PRIVATE ENABLE_LIBNL_BRIDGE_WORKAROUND )
